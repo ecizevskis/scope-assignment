@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #162240;
+}
+
+.scrollable {
+    scrollbar-width: thin;
+    scrollbar-color: #888 transparent;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 12px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+}

@@ -1,0 +1,489 @@
+{
+    "data": [
+        {
+            "userid": 1,
+            "owner": {
+                "name": "Aigars",
+                "surname": "Mūrnieks",
+                "foto": "https://static.posters.cz/image/750/art-photo/george-clooney-batman-and-robin-1997-i87010.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 1,
+                    "make": "Volvo",
+                    "model": "S60",
+                    "year": "2005",
+                    "color": "#000000",
+                    "vin": "1GC2GUAL4A1132419",
+                    "foto": "https://volvoperformanceshop.com/images/header_volvo_rotation5.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 2,
+            "owner": {
+                "name": "Pauls",
+                "surname": "Riekstiņš",
+                "foto": "https://static.squarespace.com/static/51b3dc8ee4b051b96ceb10de/51ce6099e4b0d911b4489b79/51ce61a3e4b0d911b449b106/1351960297005/1000w/adam_west_batman.jpeg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 2,
+                    "make": "Saab",
+                    "model": "93",
+                    "year": "2008",
+                    "color": "#ffffff",
+                    "vin": "2HGFG11877H504035",
+                    "foto": "https://www.saabplanet.com/wp-content/uploads/saab93ss.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 3,
+            "owner": {
+                "name": "Raivis",
+                "surname": "Zemītis",
+                "foto": "https://vignette3.wikia.nocookie.net/batman/images/5/58/Batman_(Ben_Affleck).jpg/revision/latest?cb=20160825113055"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 3,
+                    "make": "Toyota",
+                    "model": "RAV4",
+                    "year": "2007",
+                    "color": "#c2b280",
+                    "vin": "5TFEM5F18EX043734",
+                    "foto": "https://s-media-cache-ak0.pinimg.com/736x/a0/68/0d/a0680da9e0730971bf817ae7da78d2d5.jpg"
+                },
+                {
+                    "vehicleid": 4,
+                    "make": "Mercedes-Benz",
+                    "model": "Citaro O530L",
+                    "year": "2009",
+                    "color": "#0000ff",
+                    "vin": "5TEVL52N34Z376975",
+                    "foto": "https://upload.wikimedia.org/wikipedia/lv/7/79/Mercedes_Benz_O530.jpg"
+                }
+            ]
+        },
+        {},
+        {
+            "userid": 4,
+            "owner": {
+                "name": "Jānis",
+                "surname": "Ozols",
+                "foto": "https://example.com/janis.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 4,
+                    "make": "Toyota",
+                    "model": "Corolla",
+                    "year": "2020",
+                    "color": "#3377cc",
+                    "vin": "JTK123456789004",
+                    "foto": "https://example.com/corolla.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 5,
+            "owner": {
+                "name": "Dace",
+                "surname": "Mežs",
+                "foto": "https://example.com/dace.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 5,
+                    "make": "Mazda",
+                    "model": "CX-5",
+                    "year": "2021",
+                    "color": "#ffdd00",
+                    "vin": "JM3KF123456789005",
+                    "foto": "https://example.com/cx5.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 6,
+            "owner": {
+                "name": "Raivis",
+                "surname": "Petersons",
+                "foto": "https://example.com/raivis.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 6,
+                    "make": "Honda",
+                    "model": "Civic",
+                    "year": "2017",
+                    "color": "#aa44aa",
+                    "vin": "2HGFG123456789006",
+                    "foto": "https://example.com/civic.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 7,
+            "owner": {
+                "name": "Zane",
+                "surname": "Vītola",
+                "foto": "https://example.com/zane.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 7,
+                    "make": "Hyundai",
+                    "model": "Tucson",
+                    "year": "2022",
+                    "color": "#0088ff",
+                    "vin": "KM8J3123456789007",
+                    "foto": "https://example.com/tucson.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 8,
+            "owner": {
+                "name": "Andrejs",
+                "surname": "Kļaviņš",
+                "foto": "https://example.com/andrejs.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 8,
+                    "make": "Ford",
+                    "model": "Focus",
+                    "year": "2014",
+                    "color": "#dddddd",
+                    "vin": "1FAFP123456789008",
+                    "foto": "https://example.com/focus.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 9,
+            "owner": {
+                "name": "Sandra",
+                "surname": "Lapiņa",
+                "foto": "https://example.com/sandra.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 9,
+                    "make": "Skoda",
+                    "model": "Octavia",
+                    "year": "2013",
+                    "color": "#228833",
+                    "vin": "TMB123456789009",
+                    "foto": "https://example.com/octavia.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 10,
+            "owner": {
+                "name": "Toms",
+                "surname": "Grīnbergs",
+                "foto": "https://example.com/toms.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 10,
+                    "make": "Peugeot",
+                    "model": "3008",
+                    "year": "2021",
+                    "color": "#cc0000",
+                    "vin": "VF3123456789010",
+                    "foto": "https://example.com/3008.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 11,
+            "owner": {
+                "name": "Kristīne",
+                "surname": "Zariņa",
+                "foto": "https://example.com/kristine.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 11,
+                    "make": "Renault",
+                    "model": "Megane",
+                    "year": "2015",
+                    "color": "#999999",
+                    "vin": "VF1123456789011",
+                    "foto": "https://example.com/megane.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 12,
+            "owner": {
+                "name": "Rihards",
+                "surname": "Šmits",
+                "foto": "https://example.com/rihards.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 12,
+                    "make": "Tesla",
+                    "model": "Model 3",
+                    "year": "2023",
+                    "color": "#000000",
+                    "vin": "5YJ3123456789012",
+                    "foto": "https://example.com/model3.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 13,
+            "owner": {
+                "name": "Linda",
+                "surname": "Krūmiņa",
+                "foto": "https://example.com/linda.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 13,
+                    "make": "Opel",
+                    "model": "Insignia",
+                    "year": "2016",
+                    "color": "#005577",
+                    "vin": "W0L123456789013",
+                    "foto": "https://example.com/insignia.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 14,
+            "owner": {
+                "name": "Edvīns",
+                "surname": "Sproģis",
+                "foto": "https://example.com/edvins.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 14,
+                    "make": "Chevrolet",
+                    "model": "Cruze",
+                    "year": "2014",
+                    "color": "#220011",
+                    "vin": "1G1BE5SM5J7014014",
+                    "foto": "https://example.com/cruze.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 15,
+            "owner": {
+                "name": "Baiba",
+                "surname": "Vilciņa",
+                "foto": "https://example.com/baiba.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 15,
+                    "make": "Fiat",
+                    "model": "500",
+                    "year": "2020",
+                    "color": "#ffeecc",
+                    "vin": "3C3123456789015",
+                    "foto": "https://example.com/fiat500.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 16,
+            "owner": {
+                "name": "Kaspars",
+                "surname": "Bērziņš",
+                "foto": "https://example.com/kaspars.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 16,
+                    "make": "Nissan",
+                    "model": "Qashqai",
+                    "year": "2022",
+                    "color": "#0033cc",
+                    "vin": "JN1123456789016",
+                    "foto": "https://example.com/qashqai.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 17,
+            "owner": {
+                "name": "Agnese",
+                "surname": "Putniņa",
+                "foto": "https://example.com/agnese.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 17,
+                    "make": "Lexus",
+                    "model": "NX",
+                    "year": "2021",
+                    "color": "#ccccff",
+                    "vin": "JTJ3123456789017",
+                    "foto": "https://example.com/nx.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 18,
+            "owner": {
+                "name": "Emīls",
+                "surname": "Valters",
+                "foto": "https://example.com/emils.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 18,
+                    "make": "Suzuki",
+                    "model": "Swift",
+                    "year": "2013",
+                    "color": "#88cc00",
+                    "vin": "JS2123456789018",
+                    "foto": "https://example.com/swift.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 19,
+            "owner": {
+                "name": "Evija",
+                "surname": "Lazdiņa",
+                "foto": "https://example.com/evija.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 19,
+                    "make": "Subaru",
+                    "model": "Forester",
+                    "year": "2019",
+                    "color": "#555555",
+                    "vin": "JF1SJ3123456789019",
+                    "foto": "https://example.com/forester.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 20,
+            "owner": {
+                "name": "Rolands",
+                "surname": "Blūms",
+                "foto": "https://example.com/rolands.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 20,
+                    "make": "Jeep",
+                    "model": "Renegade",
+                    "year": "2018",
+                    "color": "#ff2222",
+                    "vin": "ZACCJ3123456789020",
+                    "foto": "https://example.com/renegade.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 21,
+            "owner": {
+                "name": "Signe",
+                "surname": "Briede",
+                "foto": "https://example.com/signe.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 21,
+                    "make": "Citroën",
+                    "model": "C4",
+                    "year": "2020",
+                    "color": "#eeeeee",
+                    "vin": "VF7123456789021",
+                    "foto": "https://example.com/c4.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 22,
+            "owner": {
+                "name": "Nauris",
+                "surname": "Strautiņš",
+                "foto": "https://example.com/nauris.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 22,
+                    "make": "Dacia",
+                    "model": "Duster",
+                    "year": "2021",
+                    "color": "#aaffaa",
+                    "vin": "UU1123456789022",
+                    "foto": "https://example.com/duster.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 23,
+            "owner": {
+                "name": "Solvita",
+                "surname": "Bērziņa",
+                "foto": "https://example.com/solvita.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 23,
+                    "make": "Volvo",
+                    "model": "V60",
+                    "year": "2022",
+                    "color": "#446699",
+                    "vin": "YV1123456789023",
+                    "foto": "https://example.com/v60.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 24,
+            "owner": {
+                "name": "Toms",
+                "surname": "Sējējs",
+                "foto": "https://example.com/toms2.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 24,
+                    "make": "Alfa Romeo",
+                    "model": "Giulia",
+                    "year": "2021",
+                    "color": "#660000",
+                    "vin": "ZAR123456789024",
+                    "foto": "https://example.com/giulia.jpg"
+                }
+            ]
+        },
+        {
+            "userid": 25,
+            "owner": {
+                "name": "Ilze",
+                "surname": "Skujiņa",
+                "foto": "https://example.com/ilze.jpg"
+            },
+            "vehicles": [
+                {
+                    "vehicleid": 25,
+                    "make": "Mitsubishi",
+                    "model": "Outlander",
+                    "year": "2017",
+                    "color": "#99ccff",
+                    "vin": "JA4AD3123456789025",
+                    "foto": "https://example.com/outlander.jpg"
+                }
+            ]
+        }
+    ]
+}

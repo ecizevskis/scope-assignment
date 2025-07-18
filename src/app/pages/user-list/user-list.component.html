@@ -1,0 +1,55 @@
+<div class="page-wrapper">
+
+  <div class="user-list-container">
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search users..." />
+    </div>
+
+    <div class="user-list scrollable">
+      @if (isLoading()) {
+      <div class="loading">
+        <div>
+          @for (i of [1, 2, 3]; track i) {
+          <div class="user-card placeholder">
+            <div class="user-info">
+              <div class="img-skeleton"></div>
+              <div class="user-details">
+                <div class="text-skeleton name"></div>
+                <div class="text-skeleton surname"></div>
+                <div class="text-skeleton vehicles"></div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      @if (!isLoading() && users().length === 0) {
+      <div class="empty">
+        No users found.
+      </div>
+      }
+
+      @if (!isLoading()) {
+      <div>
+        @for (user of users(); track $index) {
+        <div class="user-card">
+          <div class="user-info">
+            <img [src]="user.owner.foto" (error)="onProfileImageError($event)" alt="User photo" />
+
+            <div class="user-details">
+              <p>{{ user.owner.name }}</p>
+              <p>{{ user.owner.surname }}</p>
+              <p>Vehicles: {{ user.vehicles.length }}</p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+
+    </div>
+  </div>
+
+</div>
