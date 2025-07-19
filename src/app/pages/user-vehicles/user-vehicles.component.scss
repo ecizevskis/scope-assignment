@@ -1,0 +1,88 @@
+/* Sidebar layout styles */
+.sidebar-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: 100vh; // or 100% if inside a full-height parent
+}
+
+.user-vehicles-sidebar {
+    height: 98vh;
+    width: 100%;
+    max-width: 450px;
+    background-color: #B9C3DE;
+    padding: 1rem;
+    margin: 3px;
+    border-radius: 8px;
+    box-sizing: border-box;
+
+
+    .sidebar-header {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .user-card-wrapper {
+        flex: 1;
+    }
+
+    .back-btn-wrapper {
+        display: flex;
+        align-items: stretch;
+        margin-right: 1rem;
+    }
+
+    .back-btn {
+        height: 100%;
+        padding: 0 1rem;
+        font-size: 1.2rem;
+        background: #e0e0e0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+        background: #d0d0d0;
+    }
+
+
+
+    .vehicles-list {
+        padding-top: 1rem;
+        overflow-y: auto;
+    }
+
+
+}
+
+.user-vehicles-content {
+    height: 98vh;
+    flex: 1;
+    //padding: 2rem;
+    margin: 3px;
+    border-radius: 8px;
+    min-width: 0;
+    background-color: aqua;
+}
+
+// .user-vehicles h2 {
+//     margin-bottom: 1rem;
+// }
+
+// .user-vehicles ul {
+//     list-style: none;
+//     padding: 0;
+// }
+
+// .user-vehicles li {
+//     margin-bottom: 0.5rem;
+//     background: #f5f5f5;
+//     padding: 0.5rem 1rem;
+//     border-radius: 4px;
+// }

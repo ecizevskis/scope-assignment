@@ -1,0 +1,10 @@
+<div class="user-card" (click)="handleClick()">
+  <div class="user-info">
+    <img [src]="user.owner.foto" (error)="onProfileImageError($event)" alt="User photo" />
+    <div class="user-details">
+      <p>{{ user.owner.name }}</p>
+      <p>{{ user.owner.surname }}</p>
+      <p>Vehicles: {{ user.vehicles.length }}</p>
+    </div>
+  </div>
+</div>
