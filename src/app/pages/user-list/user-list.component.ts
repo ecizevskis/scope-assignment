@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { User } from '../../models/user.model';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -15,7 +15,14 @@ import { FormsModule } from '@angular/forms';
 export class UserListComponent implements OnInit {
     users = signal<User[]>([]);
     isLoading = signal(true);
-    searchTerm: string = '';
+    searchTerm = signal<string>('');
+
+    filteredUsers = computed(() => {
+        const term = this.searchTerm().toLowerCase().trim();
+        return this.users().filter(user =>
+            `${user.owner.name} ${user.owner.surname}`.toLowerCase().includes(term)
+        );
+    });
 
     constructor(private dataService: DataService) { }
 
@@ -38,5 +45,9 @@ export class UserListComponent implements OnInit {
         (event.target as HTMLImageElement).src = "assets/images/user_placeholder.png";
     }
 
+    onSearchInput(event: Event) {
+        const input = event.target as HTMLInputElement;
+        this.searchTerm.set(input.value);
+    }
 }
 
