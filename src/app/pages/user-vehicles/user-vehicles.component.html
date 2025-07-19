@@ -12,18 +12,13 @@
         </div>
         <div class="vehicles-list">
             @if (user && user.vehicles.length > 0) {
-
             @for (vehicle of user.vehicles; track $index) {
-
-            <app-vehicle-card [vehicle]="vehicle"></app-vehicle-card>
-            }
-
-            }
+            <app-vehicle-card [vehicle]="vehicle" (cardClick)="selectVehicle(vehicle)"></app-vehicle-card>
+            }}
 
         </div>
     </aside>
     <main class="user-vehicles-content">
-        <h2>Map area</h2>
-
+        <div id="map" class="map-container"></div>
     </main>
 </div>

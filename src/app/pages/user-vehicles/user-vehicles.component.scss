@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    height: 100vh; // or 100% if inside a full-height parent
+    overflow: hidden;
 }
 
 .user-vehicles-sidebar {
@@ -68,21 +68,14 @@
     margin: 3px;
     border-radius: 8px;
     min-width: 0;
-    background-color: aqua;
+
+
+
 }
 
-// .user-vehicles h2 {
-//     margin-bottom: 1rem;
-// }
 
-// .user-vehicles ul {
-//     list-style: none;
-//     padding: 0;
-// }
-
-// .user-vehicles li {
-//     margin-bottom: 0.5rem;
-//     background: #f5f5f5;
-//     padding: 0.5rem 1rem;
-//     border-radius: 4px;
-// }
+// #map,
+.map-container {
+    height: 100%;
+    width: 100%;
+}

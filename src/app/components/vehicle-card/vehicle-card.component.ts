@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Vehicle } from '../../models/vehicle.model';
 
@@ -11,8 +11,12 @@ import { Vehicle } from '../../models/vehicle.model';
 })
 export class VehicleCardComponent {
     @Input() vehicle!: Vehicle;
+    @Output() cardClick = new EventEmitter<Vehicle>();
 
     onVehicleImageError(event: Event) {
         (event.target as HTMLImageElement).src = "assets/images/vehicle_placeholder.png";
+    }
+    handleClick() {
+        this.cardClick.emit(this.vehicle);
     }
 }
