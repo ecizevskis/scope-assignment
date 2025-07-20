@@ -25,3 +25,27 @@ body {
     background-color: #888;
     border-radius: 6px;
 }
+
+/* These stiles should be in root so can be used by inserted html of map popup */
+.vehicle-popup {
+    max-width: 200px;
+    text-align: center;
+
+    img {
+        width: 205px;
+        border-radius: 6px;
+    }
+
+    .vehicle-info {
+        margin-top: 5px;
+        font-size: 0.9rem;
+
+        .vehicle-name {
+            font-weight: bold;
+        }
+
+        .vehicle-location {
+            color: #666;
+        }
+    }
+}

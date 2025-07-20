@@ -8,8 +8,6 @@ import { User, Vehicle, VehicleLocation } from '../../models';
 import { ProgressBarComponent, UserCardComponent, VehicleCardComponent } from '../../components';
 import { DataService } from '../../services/data.service';
 
-
-
 @Component({
     selector: 'app-user-vehicles',
     templateUrl: './user-vehicles.component.html',
@@ -69,8 +67,20 @@ export class UserVehiclesComponent implements OnInit {
             html: svg,
             iconSize: [40, 40],
             iconAnchor: [20, 40],
-            className: 'car-pin-marker'
+            className: '' // Needed to remove pin white square background
         });
+    }
+
+    private generateMapPopup(vehicleLocation: VehicleLocation, vehicle?: Vehicle): string {
+        return `
+            <div class="vehicle-popup">
+                <img src="${vehicle?.foto || 'assets/images/vehicle_placeholder.png'}" alt="Vehicle photo" />
+                <div class="vehicle-info">
+                    <div class="vehicle-name">${vehicle?.make || ''} ${vehicle?.model || ''}</div>
+                    <div class="vehicle-location">${vehicleLocation.lat}, ${vehicleLocation.lon}</div>
+                </div>
+            </div>
+        `;
     }
 
     private fetchVehicleLocations() {
@@ -86,9 +96,21 @@ export class UserVehiclesComponent implements OnInit {
                     locations.forEach(loc => {
                         if (loc.lat && loc.lon) {
                             const vehicle = this.vehicleMap().get(loc.vehicleid);
+                            const popupHtml = this.generateMapPopup(loc, vehicle);
+
                             const marker = L.marker([loc.lat, loc.lon], { icon: this.generateCarMarker(vehicle?.color || '') })
                                 .addTo(this.map)
-                                .bindPopup(`Vehicle ID: ${loc.vehicleid}\nColor: ${vehicle?.color || 'Unknown'}`);
+                                .bindPopup(popupHtml)   // Tried to use Angular component as a popup via @angular/elements, but that results in random issues
+                                .on('popupopen', () => {
+                                    const img = document.querySelector<HTMLImageElement>('.vehicle-popup img');
+                                    if (img) {
+                                        img.onerror = () => {
+                                            img.src = 'assets/images/vehicle_placeholder.png';
+                                        };
+                                    }
+                                });
+
+
                             this.markers.push(marker);
                         }
                     });
@@ -103,6 +125,8 @@ export class UserVehiclesComponent implements OnInit {
         });
     }
 
+    // Start progress bar animation for specified interval
+    // Used to show time until next vehicle location read
     private startProgressBar() {
         let elapsed = 0;
         this.progress.set(0);
@@ -114,6 +138,15 @@ export class UserVehiclesComponent implements OnInit {
                 clearInterval(this.progressIntervalId);
             }
         }, 100);
+    }
+
+    selectVehicle(vehicle: Vehicle) {
+        const location = this.vehicleLocationMap().get(vehicle.vehicleid);
+
+        // Center to vehicle on map
+        if (location && location.lat && location.lon && this.map) {
+            this.map.setView([location.lat, location.lon], 16, { animate: true });
+        }
     }
 
     ngOnInit(): void {
@@ -135,21 +168,14 @@ export class UserVehiclesComponent implements OnInit {
 
     }
 
-    onProfileImageError(event: Event) {
-        (event.target as HTMLImageElement).src = "assets/images/user_placeholder.png";
-    }
-
-    onVehicleImageError(event: Event) {
-        (event.target as HTMLImageElement).src = "assets/images/vehicle_placeholder.png";
-    }
-
-    selectVehicle(vehicle: Vehicle) {
-        const location = this.vehicleLocationMap().get(vehicle.vehicleid);
-
-        // Center to vehicle on map
-        if (location && location.lat && location.lon && this.map) {
-            this.map.setView([location.lat, location.lon], 16, { animate: true });
+    ngOnDestroy() {
+        if (this.progressIntervalId) clearInterval(this.progressIntervalId);
+        this.markers.forEach(marker => marker.remove());
+        this.markers = [];
+        if (this.map) {
+            this.map.remove();
+            this.map = undefined as any;
         }
-
     }
+
 }
