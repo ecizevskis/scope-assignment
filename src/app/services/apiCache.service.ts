@@ -11,7 +11,7 @@ interface CacheEntry<T> {
 export class ApiCacheService {
     constructor(private http: HttpClient) { }
 
-    get<T>(url: string, ttl: number): Observable<T> {
+    get<T>(url: string, ttl: number, mapResponse: (response: any) => T = (response) => response as T): Observable<T> {
         const now = Date.now();
         const cachedRaw = localStorage.getItem(url);
 
@@ -31,8 +31,8 @@ export class ApiCacheService {
         }
 
         // Fetch from network and cache
-        return this.http.get<{ data: T }>(url).pipe(
-            map(response => response.data), // ✂️ unwrap the inner `data`
+        return this.http.get(url).pipe(
+            map(mapResponse),   // Transform response using provided mapping function
             tap(data => {
                 const entry: CacheEntry<T> = {
                     data,

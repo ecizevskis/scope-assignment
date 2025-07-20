@@ -47,7 +47,9 @@ export class UserVehiclesComponent implements OnInit {
 
 
     private initMap() {
-        this.map = L.map('map').setView([56.9496, 24.1052], 13); // Example: Riga, Latvia
+        this.map = L.map('map')
+            .setView([56.9496, 24.1052], 13); // Example: Riga, Latvia
+
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             minZoom: 10,
             maxZoom: 18,
@@ -102,12 +104,45 @@ export class UserVehiclesComponent implements OnInit {
                                 .addTo(this.map)
                                 .bindPopup(popupHtml)   // Tried to use Angular component as a popup via @angular/elements, but that results in random issues
                                 .on('popupopen', () => {
-                                    const img = document.querySelector<HTMLImageElement>('.vehicle-popup img');
-                                    if (img) {
-                                        img.onerror = () => {
-                                            img.src = 'assets/images/vehicle_placeholder.png';
-                                        };
-                                    }
+                                    // When switching from one marker to another timeout ensures that image check and geolocation is loaded correctly
+                                    setTimeout(() => {
+                                        // Set image error handler to replace with placeholder if image fails to load
+                                        const img = document.querySelector<HTMLImageElement>('.vehicle-popup img');
+                                        if (img) {
+                                            img.onerror = () => {
+                                                img.src = 'assets/images/vehicle_placeholder.png';
+                                            };
+
+                                            if (img.complete && img.naturalWidth === 0) {
+                                                img.src = 'assets/images/vehicle_placeholder.png'; // Handle case where image is already loaded but broken
+                                            }
+                                        }
+
+                                        // Fetch reverse geolocation for lat/lon
+                                        if (loc.lat && loc.lon) {
+                                            this.dataService.getReverseGeolocation(loc.lat, loc.lon)
+                                                .subscribe({
+                                                    next: (data: any) => {
+                                                        console.debug('Reverse geolocation data:', data);
+                                                        if (!data) {
+                                                            console.warn('No reverse geolocation data for lat/lon:', loc.lat, loc.lon);
+                                                            return;
+                                                        }
+
+                                                        const popup = document.querySelector('.vehicle-popup .vehicle-location');
+                                                        if (popup) {
+                                                            popup.textContent = data.display_name;
+                                                        }
+
+                                                    }, error: (err) => {
+                                                        console.error('Failed to fetch reverse geolocation:', err);
+                                                    }
+                                                });
+                                        }
+                                        else {
+                                            console.warn('No lat/lon for vehicle location:', loc);
+                                        }
+                                    }, 200);
                                 });
 
 
