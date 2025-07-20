@@ -37,7 +37,7 @@ export class UserVehiclesComponent implements OnInit {
     });
     user?: User;
     progress = signal(0); // 0 to 100
-
+    connectionWarning = signal(false);
 
     private markers: L.Marker[] = [];
     private map!: L.Map;
@@ -92,10 +92,13 @@ export class UserVehiclesComponent implements OnInit {
                             this.markers.push(marker);
                         }
                     });
+
+                    this.connectionWarning.set(false);
                 }
             },
             error: (err) => {
                 console.error('Failed to load vehicle locations:', err);
+                this.connectionWarning.set(true);
             }
         });
     }

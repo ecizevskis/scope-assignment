@@ -24,6 +24,9 @@
         </div>
     </aside>
     <main class="user-vehicles-content">
-        <div id="map" class="map-container"></div>
+        @if (connectionWarning()) {
+        <div class="connection-warning">Failed to load vehicle locations</div>
+        }
+        <div id="map" class="map-container"> </div>
     </main>
 </div>
