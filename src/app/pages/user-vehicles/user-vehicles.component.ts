@@ -123,7 +123,6 @@ export class UserVehiclesComponent implements OnInit {
                                             this.dataService.getReverseGeolocation(loc.lat, loc.lon)
                                                 .subscribe({
                                                     next: (data: any) => {
-                                                        console.debug('Reverse geolocation data:', data);
                                                         if (!data) {
                                                             console.warn('No reverse geolocation data for lat/lon:', loc.lat, loc.lon);
                                                             return;
