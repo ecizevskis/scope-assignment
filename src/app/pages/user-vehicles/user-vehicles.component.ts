@@ -124,7 +124,6 @@ export class UserVehiclesComponent implements OnInit {
                                                 .subscribe({
                                                     next: (data: any) => {
                                                         if (!data) {
-                                                            console.warn('No reverse geolocation data for lat/lon:', loc.lat, loc.lon);
                                                             return;
                                                         }
 
@@ -137,9 +136,6 @@ export class UserVehiclesComponent implements OnInit {
                                                         console.error('Failed to fetch reverse geolocation:', err);
                                                     }
                                                 });
-                                        }
-                                        else {
-                                            console.warn('No lat/lon for vehicle location:', loc);
                                         }
                                     }, 200);
                                 });
