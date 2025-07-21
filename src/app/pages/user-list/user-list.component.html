@@ -5,7 +5,7 @@
       <input type="text" [(ngModel)]="searchTerm" placeholder="Search users..." />
     </div>
 
-    <div class="user-list scrollable">
+    <div class="user-list styled-scroll">
       @if (isLoading()) {
       @for (i of [1, 2, 3]; track i) {
       <app-user-card-placeholder />

@@ -1,4 +1,4 @@
-<div class="vehicle-card" (click)="handleClick()">
+<div class="vehicle-card" [id]="id" (click)="handleClick()" [class.selected]="selected">
     <div class="vehicle-info">
         <img [src]="vehicle.foto" (error)="onVehicleImageError($event)" alt="Vehicle photo" />
         <div class="vehicle-details">

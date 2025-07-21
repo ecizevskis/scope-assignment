@@ -15,10 +15,12 @@
             <app-progress-bar [value]="progress()" [text]="'Loading vehicle locations...'"></app-progress-bar>
         </div>
 
-        <div class="vehicles-list">
-            @if (user && user.vehicles.length > 0) {
-            @for (vehicle of user.vehicles; track $index) {
-            <app-vehicle-card [vehicle]="vehicle" (cardClick)="selectVehicle(vehicle)"></app-vehicle-card>
+        <div class="vehicles-list styled-scroll">
+            @if (user && vehicles().length > 0) {
+            @for (vehicle of vehicles(); track $index) {
+            <app-vehicle-card [id]="`vehicle-${vehicle.vehicleid}`" [vehicle]="vehicle"
+                [selected]="selectedVehicleId() === vehicle.vehicleid"
+                (cardClick)="selectVehicle(vehicle)"></app-vehicle-card>
             }}
 
         </div>

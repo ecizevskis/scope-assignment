@@ -10,7 +10,9 @@ import { Vehicle } from '../../models/vehicle.model';
     imports: [CommonModule]
 })
 export class VehicleCardComponent {
+    @Input() id!: string;
     @Input() vehicle!: Vehicle;
+    @Input() selected: boolean = false;
     @Output() cardClick = new EventEmitter<Vehicle>();
 
     onVehicleImageError(event: Event) {

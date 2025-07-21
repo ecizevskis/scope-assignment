@@ -15,7 +15,8 @@
     margin: 3px;
     border-radius: 8px;
     box-sizing: border-box;
-
+    display: flex;
+    flex-direction: column;
 
     .sidebar-header {
         display: flex;
@@ -53,6 +54,13 @@
 
     .vehicles-list {
         overflow-y: auto;
+        border-radius: 8px;
+
+        // Adding spacing between user cards
+        &>*:not(:last-child) {
+            margin-bottom: 8px;
+            display: block;
+        }
     }
 
 

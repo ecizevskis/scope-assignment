@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import * as L from 'leaflet';
@@ -7,6 +7,7 @@ import * as L from 'leaflet';
 import { User, Vehicle, VehicleLocation } from '../../models';
 import { ProgressBarComponent, UserCardComponent, VehicleCardComponent } from '../../components';
 import { DataService } from '../../services/data.service';
+import { VehicleMapData } from './model/vehicle-map-data.interface';
 
 @Component({
     selector: 'app-user-vehicles',
@@ -16,35 +17,62 @@ import { DataService } from '../../services/data.service';
     imports: [CommonModule, RouterModule, UserCardComponent, VehicleCardComponent, ProgressBarComponent]
 })
 export class UserVehiclesComponent implements OnInit {
-    vehicles = signal<Vehicle[]>([]);
-    vehicleMap = computed(() => {
-        const map = new Map<number, Vehicle>();
-        for (const v of this.vehicles()) {
-            map.set(v.vehicleid, v);
-        }
-        return map;
-    });
+
+    // TODO: Remove when no need for test data --------------------------------------------------------------------
+    // This is just to have bigger amount of vehicles to test UI scrolling and scroll in view by pin selection
+    private useTestGeneratedVehicles = true;
+    private moreTestVehicles: Vehicle[] = this.dataService.getMoreTestVehicles();
+    // Generate random locations in Riga for all moreTestVehicles by vehicleId
+    private moreTestVehicleLocations: VehicleLocation[] = this.moreTestVehicles.map<VehicleLocation>(v => ({
+        vehicleid: v.vehicleid,
+        lat: 56.95 + (Math.random() - 0.5) * 0.05, // Riga latitude ± small random offset
+        lon: 24.10 + (Math.random() - 0.5) * 0.08, // Riga longitude ± small random offset
+    }));
+    // -------------------------------------------------------------------------------------------------------------
+
     isLoading = signal(true);
-    vehicleLocations = signal<VehicleLocation[]>([]);
-    vehicleLocationMap = computed(() => {
-        const map = new Map<number, VehicleLocation>();
-        for (const loc of this.vehicleLocations()) {
-            map.set(loc.vehicleid, loc);
-        }
-        return map;
-    });
     user?: User;
     progress = signal(0); // 0 to 100
     connectionWarning = signal(false);
+    selectedVehicleId = signal<number | null>(null);
 
-    private markers: L.Marker[] = [];
+    vehicles = signal<Vehicle[]>([]);
+    vehicleDataLookup = computed(() => {
+        const map = new Map<number, VehicleMapData>();
+        for (const v of this.vehicles()) {
+            map.set(v.vehicleid, { vehicle: v, location: undefined, marker: undefined });
+        }
+        return map;
+    });
+
+    // vehicleLocations = signal<VehicleLocation[]>([]);
+    // vehicleLocationMap = computed(() => {
+    //     const map = new Map<number, VehicleLocation>();
+    //     for (const loc of this.vehicleLocations()) {
+    //         map.set(loc.vehicleid, loc);
+    //     }
+    //     return map;
+    // });
+
+
+
+    // private markers = signal<L.Marker[]>([]);
+    // private markerMap = computed(() => {
+    //     const map = new Map<number, L.Marker>();
+    //     for (const marker of this.markers()) {
+    //         const vehicleId = (marker.getLatLng() as any).vehicleid ?? marker.options['vehicleid'];
+    //         if (vehicleId) {
+    //             map.set(vehicleId, marker);
+    //         }
+    //     }
+    //     return map;
+    // });
+
     private map!: L.Map;
-
     private progressIntervalId: any;
-    private vehicleLocationReadInterval = 30000; // 30 seconds
+    private vehicleLocationReadInterval = 60000; // 60 seconds
 
-    constructor(private location: Location, private dataService: DataService) { }
-
+    constructor(private location: Location, private dataService: DataService, private scroller: ViewportScroller) { }
 
     private initMap() {
         this.map = L.map('map')
@@ -69,6 +97,7 @@ export class UserVehiclesComponent implements OnInit {
             html: svg,
             iconSize: [40, 40],
             iconAnchor: [20, 40],
+            popupAnchor: [0, -40],
             className: '' // Needed to remove pin white square background
         });
     }
@@ -85,63 +114,81 @@ export class UserVehiclesComponent implements OnInit {
         `;
     }
 
+    // Loads image placeholder if image fails to load and fetches reverse geolocation for lat/lon
+    private updateMapPopup(vehicleLocation: VehicleLocation) {
+        // Set image error handler to replace with placeholder if image fails to load
+        const img = document.querySelector<HTMLImageElement>('.vehicle-popup img');
+        if (img) {
+            img.onerror = () => {
+                img.src = 'assets/images/vehicle_placeholder.png';
+            };
+
+            if (img.complete && img.naturalWidth === 0) {
+                img.src = 'assets/images/vehicle_placeholder.png'; // Handle case where image is already loaded but broken
+            }
+        }
+
+        // Fetch reverse geolocation for lat/lon
+        if (vehicleLocation.lat && vehicleLocation.lon) {
+            this.dataService.getReverseGeolocation(vehicleLocation.lat, vehicleLocation.lon)
+                .subscribe({
+                    next: (data: any) => {
+                        if (!data) {
+                            return;
+                        }
+
+                        const popup = document.querySelector('.vehicle-popup .vehicle-location');
+                        if (popup) {
+                            popup.textContent = data.display_name;
+                        }
+
+                    }, error: (err) => {
+                        console.error('Failed to fetch reverse geolocation:', err);
+                    }
+                });
+        }
+    }
+
     private fetchVehicleLocations() {
         this.startProgressBar();
         this.dataService.getUserVehicleLocations(this.user?.userid || 0).subscribe({
             next: (locations) => {
-                this.vehicleLocations.set(locations || []);
-                if (this.map && Array.isArray(locations)) {
-                    // Clear old markers
-                    this.markers.forEach(marker => marker.remove());
-                    this.markers = [];
 
-                    locations.forEach(loc => {
-                        if (loc.lat && loc.lon) {
-                            const vehicle = this.vehicleMap().get(loc.vehicleid);
-                            const popupHtml = this.generateMapPopup(loc, vehicle);
+                const userVehicleLocation = locations || [];
+                locations = this.useTestGeneratedVehicles  // TODO: Remove when no need for test data
+                    ? [...userVehicleLocation, ...this.moreTestVehicleLocations]
+                    : userVehicleLocation;
 
-                            const marker = L.marker([loc.lat, loc.lon], { icon: this.generateCarMarker(vehicle?.color || '') })
-                                .addTo(this.map)
-                                .bindPopup(popupHtml)   // Tried to use Angular component as a popup via @angular/elements, but that results in random issues
-                                .on('popupopen', () => {
-                                    // When switching from one marker to another timeout ensures that image check and geolocation is loaded correctly
-                                    setTimeout(() => {
-                                        // Set image error handler to replace with placeholder if image fails to load
-                                        const img = document.querySelector<HTMLImageElement>('.vehicle-popup img');
-                                        if (img) {
-                                            img.onerror = () => {
-                                                img.src = 'assets/images/vehicle_placeholder.png';
-                                            };
+                // Update vehicle data with locations
+                if (Array.isArray(locations)) {
+                    locations.forEach(location => {
+                        const vehicleData = this.vehicleDataLookup().get(location.vehicleid);
+                        if (vehicleData) {
+                            vehicleData.location = location;
+                        }
+                    });
+                }
 
-                                            if (img.complete && img.naturalWidth === 0) {
-                                                img.src = 'assets/images/vehicle_placeholder.png'; // Handle case where image is already loaded but broken
-                                            }
-                                        }
-
-                                        // Fetch reverse geolocation for lat/lon
-                                        if (loc.lat && loc.lon) {
-                                            this.dataService.getReverseGeolocation(loc.lat, loc.lon)
-                                                .subscribe({
-                                                    next: (data: any) => {
-                                                        if (!data) {
-                                                            return;
-                                                        }
-
-                                                        const popup = document.querySelector('.vehicle-popup .vehicle-location');
-                                                        if (popup) {
-                                                            popup.textContent = data.display_name;
-                                                        }
-
-                                                    }, error: (err) => {
-                                                        console.error('Failed to fetch reverse geolocation:', err);
-                                                    }
-                                                });
-                                        }
-                                    }, 200);
-                                });
-
-
-                            this.markers.push(marker);
+                if (this.map) {
+                    this.vehicleDataLookup().forEach((data, vehicleId) => {
+                        const location = data.location;
+                        if (location && location.lat && location.lon) {
+                            if (data.marker) {
+                                data.marker.setLatLng([location.lat, location.lon]);
+                            }
+                            else { // Create new marker
+                                data.marker = L.marker([location.lat, location.lon], { icon: this.generateCarMarker(data.vehicle?.color || '') })
+                                    .addTo(this.map)
+                                    // Tried to use Angular component as a popup via @angular/elements, but that results in random issues
+                                    .bindPopup(this.generateMapPopup(location, data.vehicle))
+                                    .on('click', () => {
+                                        this.highlightVehicle(vehicleId);
+                                    })
+                                    .on('popupopen', () => {
+                                        // When switching from one marker to another timeout ensures that image check and geolocation is loaded correctly
+                                        setTimeout(() => this.updateMapPopup(location), 200);
+                                    });
+                            }
                         }
                     });
 
@@ -170,38 +217,58 @@ export class UserVehiclesComponent implements OnInit {
         }, 100);
     }
 
-    selectVehicle(vehicle: Vehicle) {
-        const location = this.vehicleLocationMap().get(vehicle.vehicleid);
 
-        // Center to vehicle on map
-        if (location && location.lat && location.lon && this.map) {
-            this.map.setView([location.lat, location.lon], 16, { animate: true });
+    highlightVehicle(vehicleId: number) {
+        this.selectedVehicleId.set(vehicleId);
+        const el = document.getElementById(`vehicle-${vehicleId}`);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    selectVehicle(vehicle: Vehicle) {
+        this.selectedVehicleId.set(vehicle.vehicleid);
+        const vehicleMapData = this.vehicleDataLookup().get(vehicle.vehicleid);
+        if (vehicleMapData && vehicleMapData.marker && this.map) {
+            if (!vehicleMapData.marker.isPopupOpen()) {
+                vehicleMapData.marker.openPopup(); // Open popup on marker click
+            }
+            this.map.setView(vehicleMapData.marker.getLatLng(), 16, { animate: true });
         }
     }
 
     ngOnInit(): void {
         const stateData = this.location.getState() as { user: User };
         this.user = stateData?.user;
-        this.vehicles.set(this.user?.vehicles || []);
+
+        const userVehicles = this.user?.vehicles || [];
+        const vehicles = this.useTestGeneratedVehicles  // TODO: Remove when no need for test data
+            ? [...userVehicles, ...this.moreTestVehicles]
+            : userVehicles;
+
+        this.vehicles.set(vehicles);
         this.isLoading.set(false);
     }
 
 
     ngAfterViewInit() {
         this.initMap();
-
-        // Poll every 30 seconds
         this.fetchVehicleLocations();
         setInterval(() => {
             this.fetchVehicleLocations();
-        }, this.vehicleLocationReadInterval);
+        }, this.vehicleLocationReadInterval); // Poll vehicle locations periodically
 
     }
 
     ngOnDestroy() {
         if (this.progressIntervalId) clearInterval(this.progressIntervalId);
-        this.markers.forEach(marker => marker.remove());
-        this.markers = [];
+
+        this.vehicleDataLookup().forEach(data => {
+            if (data.marker) {
+                data.marker.remove();
+            }
+        });
+
         if (this.map) {
             this.map.remove();
             this.map = undefined as any;

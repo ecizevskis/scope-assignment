@@ -2,7 +2,6 @@
     background: #f5f5f5;
     border-radius: 8px;
     padding: 0.5rem 1rem;
-    margin-bottom: 1rem;
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -10,6 +9,10 @@
 
     &:hover {
         background-color: #a9dfbf
+    }
+
+    &.selected {
+        background-color: #f5ff68;
     }
 
     .vehicle-info {
