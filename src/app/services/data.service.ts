@@ -13,8 +13,11 @@ export class DataService {
     ) { }
 
     getData(): Observable<User[]> {
-        //return this.apiCache.get<User[]>("https://mobi.connectedcar360.net/api/?op=list", 5 * 60 * 1000); // Cache for 5 minutes
-        return this.apiCache.get<User[]>("http://localhost:5000/api/users", 5 * 60 * 1000, (response) => response.data); // Cache for 5 minutes
+        return this.apiCache.get<User[]>("https://mobi.connectedcar360.net/api/?op=list", 5 * 60 * 1000, (response) => response.data); // Cache for 5 minutes
+
+        // TODO: Remove when no need for test data
+        // Return bigger set of users to test UI scrolling (provided by Node.js server: npm run backend)
+        //return this.apiCache.get<User[]>("http://localhost:5000/api/users", 5 * 60 * 1000, (response) => response.data); // Cache for 5 minutes
     }
 
     getUserVehicleLocations(userId: number): Observable<VehicleLocation[]> {

@@ -28,6 +28,7 @@ body.light {
     --user-vehicles-sidebar-bg: white;
     --user-vehicles-back-button-bg: rgba(13, 189, 246, 0.5);
     --user-vehicles-back-button-hover-bg: #d0d0d0;
+    --user-vehicles-popup-text-color: #666;
 
     --user-list-bg: white;
     --user-list-search-border: 1px solid rgba(13, 189, 246, 0.5);
@@ -47,8 +48,7 @@ body.dark {
     --smaller-border-radius: 6px;
 
     --scrollbar-border-radius: 6px;
-    --scrollbar-color: #888 transparent;
-    --scrollbar-thumb-color: #888;
+    --scrollbar-color: #fff8e1 transparent;
     --scrollbar-thumb-hover-color: #555;
 
     --progress-bar-bg: #e0e0e0;
@@ -67,6 +67,7 @@ body.dark {
     --user-vehicles-sidebar-bg: #7f8c8d;
     --user-vehicles-back-button-bg: #fff8e1;
     --user-vehicles-back-button-hover-bg: #d0d0d0;
+    --user-vehicles-popup-text-color: #666;
 
     --user-list-bg: #7f8c8d;
     --user-list-search-border: 1px solid rgba(13, 189, 246, 0.5);

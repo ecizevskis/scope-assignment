@@ -11,14 +11,14 @@
       <app-user-card-placeholder />
       }}
 
-      @if (!isLoading() && users().length === 0) {
+      @if (!isLoading() && filteredUsers().length === 0) {
       <div class="empty">
         No users found.
       </div>
       }
 
       @if (!isLoading()) {
-      @for (user of users(); track $index) {
+      @for (user of filteredUsers(); track $index) {
       <app-user-card [user]="user" (cardClick)="navigateToUser(user)"></app-user-card>
       }
       }
