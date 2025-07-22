@@ -40,7 +40,6 @@ export class ApiCacheService {
                 };
                 try {
                     localStorage.setItem(url, JSON.stringify(entry));
-                    console.debug("Stored new data for endpoint: " + url)
                 } catch (err) {
                     console.warn('⚠️ Failed to save to localStorage', err);
                 }

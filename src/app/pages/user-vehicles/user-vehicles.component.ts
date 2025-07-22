@@ -25,7 +25,7 @@ export class UserVehiclesComponent implements OnInit {
 
     // TODO: Remove when no need for test data --------------------------------------------------------------------
     // This is just to have bigger amount of vehicles to test UI scrolling and scroll in view by pin selection
-    private useTestGeneratedVehicles = true;
+    private useTestGeneratedVehicles = false;
     private moreTestVehicles: Vehicle[] = this.dataService.getMoreTestVehicles();
     // Generate random locations in Riga for all moreTestVehicles by vehicleId
     private moreTestVehicleLocations: VehicleLocation[] = this.moreTestVehicles.map<VehicleLocation>(v => ({
@@ -49,29 +49,6 @@ export class UserVehiclesComponent implements OnInit {
         }
         return map;
     });
-
-    // vehicleLocations = signal<VehicleLocation[]>([]);
-    // vehicleLocationMap = computed(() => {
-    //     const map = new Map<number, VehicleLocation>();
-    //     for (const loc of this.vehicleLocations()) {
-    //         map.set(loc.vehicleid, loc);
-    //     }
-    //     return map;
-    // });
-
-
-
-    // private markers = signal<L.Marker[]>([]);
-    // private markerMap = computed(() => {
-    //     const map = new Map<number, L.Marker>();
-    //     for (const marker of this.markers()) {
-    //         const vehicleId = (marker.getLatLng() as any).vehicleid ?? marker.options['vehicleid'];
-    //         if (vehicleId) {
-    //             map.set(vehicleId, marker);
-    //         }
-    //     }
-    //     return map;
-    // });
 
     private map!: L.Map;
     private progressIntervalId: any;
