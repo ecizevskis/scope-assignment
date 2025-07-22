@@ -1,18 +1,18 @@
 .vehicle-card {
-    background: #f5f5f5;
-    border-radius: 8px;
+    background: var(--vehicle-card-bg);
+    border-radius: var(--main-border-radius);
     padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     font-size: 18px;
-    color: #666666;
+    color: var(--text-color);
 
     &:hover {
-        background-color: #a9dfbf
+        background: var(--vehicle-card-hover-bg);
     }
 
     &.selected {
-        background-color: #f5ff68;
+        background: var(--vehicle-card-selected-bg);
     }
 
     .vehicle-info {
@@ -24,7 +24,7 @@
         width: 90px;
         height: auto;
         object-fit: cover;
-        border-radius: 8px;
+        border-radius: var(--main-border-radius);
         margin-right: 1rem;
     }
 

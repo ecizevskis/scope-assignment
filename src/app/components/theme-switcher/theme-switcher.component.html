@@ -1,0 +1,19 @@
+<!-- Using free svg for non commercial use https://www.vecteezy.com/vector-art/28203329-switch-on-and-off-night-and-day -->
+
+<div class="theme-switcher-float">
+    <div class="theme-switcher" (click)="toggleTheme()" title="Toggle Theme">
+        @if (!isDarkTheme()) {
+        <svg viewBox="0 1500 3000 1500" width="70" height="auto">
+            <use href="assets/images/vecteezy_switch-on-and-off-night-and-day_28203329.svg" />
+        </svg>
+
+        }
+
+        @else {
+        <svg viewBox="0 0 3000 1500" width="70" height="auto">
+            <use href="assets/images/vecteezy_switch-on-and-off-night-and-day_28203329.svg" />
+        </svg>
+
+        }
+    </div>
+</div>

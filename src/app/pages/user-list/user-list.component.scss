@@ -7,12 +7,12 @@
 
 .user-list-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #B9C3DE;
-  border-radius: 8px;
+  background-color: var(--user-list-bg);
+  border-radius: var(--main-border-radius);
 
   .search-bar {
     padding: 10px;
@@ -23,8 +23,8 @@
     box-sizing: border-box;
     padding: 8px;
     font-size: 16px;
-    border: none;
-    border-radius: 10px;
+    border: var(--user-list-search-border);
+    border-radius: var(--main-border-radius);
   }
 }
 
