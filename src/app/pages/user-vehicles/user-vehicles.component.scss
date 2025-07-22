@@ -62,8 +62,6 @@
             display: block;
         }
     }
-
-
 }
 
 .user-vehicles-content {
@@ -74,14 +72,12 @@
     min-width: 0;
 }
 
-
 // #map,
 .map-container {
     height: 100%;
     width: 100%;
     border-radius: 8px;
 }
-
 
 .progress-bar-wrapper {
     width: 100%;
@@ -100,4 +96,26 @@
     font-weight: 500;
     color: red;
     z-index: 1000;
+}
+
+// Map marker highlight animation
+@keyframes flash {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.3;
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+:host ::ng-deep .car-marker.flash {
+    animation: flash 0.6s ease-in-out 4;
 }

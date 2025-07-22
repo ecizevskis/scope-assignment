@@ -7,7 +7,12 @@ import * as L from 'leaflet';
 import { User, Vehicle, VehicleLocation } from '../../models';
 import { ProgressBarComponent, UserCardComponent, VehicleCardComponent } from '../../components';
 import { DataService } from '../../services/data.service';
-import { VehicleMapData } from './model/vehicle-map-data.interface';
+
+interface VehicleMapData {
+    vehicle: Vehicle;
+    location?: VehicleLocation;
+    marker?: L.Marker;
+}
 
 @Component({
     selector: 'app-user-vehicles',
@@ -87,12 +92,12 @@ export class UserVehiclesComponent implements OnInit {
 
     private generateCarMarker(color: string): L.DivIcon {
         // Transparent car on map is not looking good, but filling it with color might be too undistinguishable with some pin colors
-        const svg = `
+        const svg = `<div class="car-marker">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 166 140">
-            <path fill="none" stroke="#000" stroke-width="8" d="M83 0a51.13 51.13 0 0 1 51 51.14c0 17-15.73 43.89-22.5 54.69a246.25 246.25 0 0 1-16.72 23.7C86.66 139.53 84.2 140 83.14 140h-.45c-1.2-.07-3.88-.93-11.64-10.45a240.4 240.4 0 0 1-16.71-23.72C47.63 95.05 32 68.17 32 51.14A51.13 51.13 0 0 1 83 0z"/>
-            <path fill="${color}" d="M83 0a51.13 51.13 0 0 1 51 51.14c0 17-15.73 43.89-22.5 54.69a246.25 246.25 0 0 1-16.72 23.7C86.66 139.53 84.2 140 83.14 140h-.45c-1.2-.07-3.88-.93-11.64-10.45a240.4 240.4 0 0 1-16.71-23.72C47.63 95.05 32 68.17 32 51.14A51.13 51.13 0 0 1 83 0zm16.4 22H65.55a7.91 7.91 0 0 0-6.75 4.5l-3.61 8.75-3.43-1a3.69 3.69 0 0 0-.92-.12 2.81 2.81 0 0 0-2.84 3v2a3.66 3.66 0 0 0 3.67 3.65h.39l-.58 1.41A27 27 0 0 0 49.75 53v17.36A3.67 3.67 0 0 0 53.42 74h4.79a3.66 3.66 0 0 0 3.66-3.64V66h41.21v4.35a3.66 3.66 0 0 0 3.67 3.65h4.78a3.66 3.66 0 0 0 3.67-3.64V53a27.31 27.31 0 0 0-1.73-8.7l-.58-1.41h.44a3.66 3.66 0 0 0 3.67-3.7v-2a2.81 2.81 0 0 0-2.84-3 3.69 3.69 0 0 0-.92.12l-3.48 1-3.62-8.76A7.88 7.88 0 0 0 99.4 22zm7.27 29.2a1.46 1.46 0 0 1 1.47 1.46v5a1.47 1.47 0 0 1-1.47 1.46H96.28a1.47 1.47 0 0 1-1.46-1.46v-5a1.46 1.46 0 0 1 1.46-1.46zm-38.1 0A1.47 1.47 0 0 1 70 52.66v5a1.48 1.48 0 0 1-1.47 1.46H58.18a1.47 1.47 0 0 1-1.47-1.46v-5a1.46 1.46 0 0 1 1.47-1.46zm29-26.29a4.75 4.75 0 0 1 4 2.7l5.47 13.25a1.82 1.82 0 0 1-1.82 2.7H59.65a1.83 1.83 0 0 1-1.83-2.7l5.47-13.25a4.74 4.74 0 0 1 4.05-2.7z"/>
+                <path fill="none" stroke="#000" stroke-width="8" d="M83 0a51.13 51.13 0 0 1 51 51.14c0 17-15.73 43.89-22.5 54.69a246.25 246.25 0 0 1-16.72 23.7C86.66 139.53 84.2 140 83.14 140h-.45c-1.2-.07-3.88-.93-11.64-10.45a240.4 240.4 0 0 1-16.71-23.72C47.63 95.05 32 68.17 32 51.14A51.13 51.13 0 0 1 83 0z"/>
+                <path fill="${color}" d="M83 0a51.13 51.13 0 0 1 51 51.14c0 17-15.73 43.89-22.5 54.69a246.25 246.25 0 0 1-16.72 23.7C86.66 139.53 84.2 140 83.14 140h-.45c-1.2-.07-3.88-.93-11.64-10.45a240.4 240.4 0 0 1-16.71-23.72C47.63 95.05 32 68.17 32 51.14A51.13 51.13 0 0 1 83 0zm16.4 22H65.55a7.91 7.91 0 0 0-6.75 4.5l-3.61 8.75-3.43-1a3.69 3.69 0 0 0-.92-.12 2.81 2.81 0 0 0-2.84 3v2a3.66 3.66 0 0 0 3.67 3.65h.39l-.58 1.41A27 27 0 0 0 49.75 53v17.36A3.67 3.67 0 0 0 53.42 74h4.79a3.66 3.66 0 0 0 3.66-3.64V66h41.21v4.35a3.66 3.66 0 0 0 3.67 3.65h4.78a3.66 3.66 0 0 0 3.67-3.64V53a27.31 27.31 0 0 0-1.73-8.7l-.58-1.41h.44a3.66 3.66 0 0 0 3.67-3.7v-2a2.81 2.81 0 0 0-2.84-3 3.69 3.69 0 0 0-.92.12l-3.48 1-3.62-8.76A7.88 7.88 0 0 0 99.4 22zm7.27 29.2a1.46 1.46 0 0 1 1.47 1.46v5a1.47 1.47 0 0 1-1.47 1.46H96.28a1.47 1.47 0 0 1-1.46-1.46v-5a1.46 1.46 0 0 1 1.46-1.46zm-38.1 0A1.47 1.47 0 0 1 70 52.66v5a1.48 1.48 0 0 1-1.47 1.46H58.18a1.47 1.47 0 0 1-1.47-1.46v-5a1.46 1.46 0 0 1 1.47-1.46zm29-26.29a4.75 4.75 0 0 1 4 2.7l5.47 13.25a1.82 1.82 0 0 1-1.82 2.7H59.65a1.83 1.83 0 0 1-1.83-2.7l5.47-13.25a4.74 4.74 0 0 1 4.05-2.7z"/>
             </svg>
-        `;
+        </div>`;
         return L.divIcon({
             html: svg,
             iconSize: [40, 40],
@@ -181,13 +186,15 @@ export class UserVehiclesComponent implements OnInit {
                                     .addTo(this.map)
                                     // Tried to use Angular component as a popup via @angular/elements, but that results in random issues
                                     .bindPopup(this.generateMapPopup(location, data.vehicle))
-                                    .on('click', () => {
+                                    .on('click', (e) => {
                                         this.highlightVehicle(vehicleId);
                                     })
                                     .on('popupopen', () => {
                                         // When switching from one marker to another timeout ensures that image check and geolocation is loaded correctly
                                         setTimeout(() => this.updateMapPopup(location), 200);
                                     });
+
+
                             }
                         }
                     });
@@ -233,6 +240,17 @@ export class UserVehiclesComponent implements OnInit {
             if (!vehicleMapData.marker.isPopupOpen()) {
                 vehicleMapData.marker.openPopup(); // Open popup on marker click
             }
+
+            // Add highlight class to marker icon when popup is opened
+            const carMarkerElement = vehicleMapData.marker.getElement()?.querySelector('.car-marker');
+            if (carMarkerElement) {
+                carMarkerElement.classList.add('flash');
+                carMarkerElement.addEventListener('animationend', () => {
+                    carMarkerElement.classList.remove('flash');
+                }, { once: true });
+            }
+
+            // Center map on selected vehicle marker
             this.map.setView(vehicleMapData.marker.getLatLng(), 16, { animate: true });
         }
     }
