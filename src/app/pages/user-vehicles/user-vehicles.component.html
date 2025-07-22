@@ -1,0 +1,34 @@
+<div class="sidebar-layout">
+    <aside class="user-vehicles-sidebar">
+        <div class="sidebar-header">
+            <div class="back-btn-wrapper">
+                <button class="back-btn" routerLink="/">&#8592;</button>
+            </div>
+            <div class="user-card-wrapper">
+                @if (user) {
+                <app-user-card [user]="user"></app-user-card>
+                }
+            </div>
+        </div>
+
+        <div class="progress-bar-wrapper">
+            <app-progress-bar [value]="progress()" [text]="'Loading vehicle locations...'"></app-progress-bar>
+        </div>
+
+        <div class="vehicles-list styled-scroll">
+            @if (user && vehicles().length > 0) {
+            @for (vehicle of vehicles(); track $index) {
+            <app-vehicle-card [id]="`vehicle-${vehicle.vehicleid}`" [vehicle]="vehicle"
+                [selected]="selectedVehicleId() === vehicle.vehicleid"
+                (cardClick)="selectVehicle(vehicle)"></app-vehicle-card>
+            }}
+
+        </div>
+    </aside>
+    <main class="user-vehicles-content">
+        @if (connectionWarning()) {
+        <div class="connection-warning">Failed to load vehicle locations</div>
+        }
+        <div id="map" class="map-container"> </div>
+    </main>
+</div>

@@ -1,0 +1,66 @@
+/* Base placeholder card */
+.user-card-placeholder {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 12px;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Skeleton structure */
+.img-skeleton {
+
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background-color: #ddd;
+    margin-right: 15px;
+}
+
+.text-skeleton {
+    height: 16px;
+    background-color: #ddd;
+    margin: 6px 0;
+    border-radius: 4px;
+}
+
+/* Individual widths for realism */
+.name {
+    width: 120px;
+}
+
+.surname {
+    width: 150px;
+}
+
+.vehicles {
+    width: 100px;
+}
+
+/* Container flex layout */
+.user-info {
+    display: flex;
+    align-items: flex-start;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

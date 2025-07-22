@@ -1,0 +1,10 @@
+<div class="vehicle-card" [id]="id" (click)="handleClick()" [class.selected]="selected">
+    <div class="vehicle-info">
+        <img [src]="vehicle.foto" (error)="onVehicleImageError($event)" alt="Vehicle photo" />
+        <div class="vehicle-details">
+            <p>{{ vehicle.make }}</p>
+            <p>{{ vehicle.model }} ({{ vehicle.year }})</p>
+            <p>VIN: {{ vehicle.vin }}</p>
+        </div>
+    </div>
+</div>

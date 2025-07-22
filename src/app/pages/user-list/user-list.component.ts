@@ -1,30 +1,24 @@
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { User } from '../../models/user.model';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { UserCardComponent, UserCardPlaceholderComponent } from '../../components';
 
 @Component({
     selector: 'app-user-list',
     templateUrl: './user-list.component.html',
     styleUrls: ['./user-list.component.scss'],
     standalone: true,
-    imports: [FormsModule]
+    imports: [FormsModule, UserCardComponent, UserCardPlaceholderComponent]
 })
 export class UserListComponent implements OnInit {
     users = signal<User[]>([]);
     isLoading = signal(true);
-    searchTerm = signal<string>('');
+    searchTerm: string = '';
 
-    filteredUsers = computed(() => {
-        const term = this.searchTerm().toLowerCase().trim();
-        return this.users().filter(user =>
-            `${user.owner.name} ${user.owner.surname}`.toLowerCase().includes(term)
-        );
-    });
-
-    constructor(private dataService: DataService) { }
+    constructor(private dataService: DataService, private router: Router) { }
 
     ngOnInit(): void {
         this.dataService.getData().subscribe({
@@ -45,9 +39,11 @@ export class UserListComponent implements OnInit {
         (event.target as HTMLImageElement).src = "assets/images/user_placeholder.png";
     }
 
-    onSearchInput(event: Event) {
-        const input = event.target as HTMLInputElement;
-        this.searchTerm.set(input.value);
+    navigateToUser(user: User) {
+        this.router.navigate(['/user'], {
+            state: { user: user }
+        });
+
     }
 }
 
