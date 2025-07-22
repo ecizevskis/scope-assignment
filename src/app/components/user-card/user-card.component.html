@@ -1,4 +1,4 @@
-<div class="user-card" (click)="handleClick()">
+<div class="user-card" [class.left-dock]="dockLeft" (click)="handleClick()">
   <div class="user-info">
     <img [src]="user.owner.foto" (error)="onProfileImageError($event)" alt="User photo" />
     <div class="user-details">

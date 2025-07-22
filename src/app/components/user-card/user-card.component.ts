@@ -11,6 +11,7 @@ import { User } from '../../models/user.model';
 })
 export class UserCardComponent {
   @Input() user!: User;
+  @Input() dockLeft?: boolean = false;
   @Output() cardClick = new EventEmitter<User>();
 
   onProfileImageError(event: Event) {

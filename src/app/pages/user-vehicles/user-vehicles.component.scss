@@ -10,10 +10,10 @@
     height: 98vh;
     width: 100%;
     max-width: 450px;
-    background-color: #B9C3DE;
+    background: var(--user-vehicles-sidebar-bg);
     padding: 1rem;
     margin: 3px;
-    border-radius: 8px;
+    border-radius: var(--main-border-radius);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -26,21 +26,25 @@
 
     .user-card-wrapper {
         flex: 1;
+
+        .user-card {
+            border-radius: 0 var(--main-border-radius) var(--main-border-radius) 0;
+        }
     }
 
     .back-btn-wrapper {
         display: flex;
         align-items: stretch;
-        margin-right: 1rem;
+
     }
 
     .back-btn {
         height: 100%;
         padding: 0 1rem;
         font-size: 1.2rem;
-        background: #e0e0e0;
+        background: var(--user-vehicles-back-button-bg);
         border: none;
-        border-radius: 4px;
+        border-radius: var(--main-border-radius) 0 0 var(--main-border-radius);
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -49,12 +53,14 @@
     }
 
     .back-btn:hover {
-        background: #d0d0d0;
+        background: var(--user-vehicles-back-button-hover-bg);
     }
+
+
 
     .vehicles-list {
         overflow-y: auto;
-        border-radius: 8px;
+        border-radius: var(--main-border-radius);
 
         // Adding spacing between user cards
         &>*:not(:last-child) {
@@ -68,7 +74,7 @@
     height: 98vh;
     flex: 1;
     margin: 3px;
-    border-radius: 8px;
+    border-radius: var(--main-border-radius);
     min-width: 0;
 }
 
@@ -76,7 +82,7 @@
 .map-container {
     height: 100%;
     width: 100%;
-    border-radius: 8px;
+    border-radius: var(--main-border-radius);
 }
 
 .progress-bar-wrapper {
@@ -89,12 +95,12 @@
     position: relative;
     height: 25px;
     margin-bottom: -25px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 8px 8px 0 0;
+    background-color: var(--connection-warning-bg);
+    border-radius: var(--main-border-radius) var(--main-border-radius) 0 0;
     text-align: center;
     font-size: 1.2rem;
     font-weight: 500;
-    color: red;
+    color: var(--connection-warning-text-color);
     z-index: 1000;
 }
 
