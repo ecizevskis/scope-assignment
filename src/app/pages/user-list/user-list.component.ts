@@ -1,8 +1,7 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { User } from '../../models/user.model';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserCardComponent, UserCardPlaceholderComponent } from '../../components';
 
@@ -16,7 +15,14 @@ import { UserCardComponent, UserCardPlaceholderComponent } from '../../component
 export class UserListComponent implements OnInit {
     users = signal<User[]>([]);
     isLoading = signal(true);
-    searchTerm: string = '';
+    searchTerm = signal<string>('');
+
+    filteredUsers = computed(() => {
+        const term = this.searchTerm().toLowerCase().trim();
+        return this.users().filter(user =>
+            `${user.owner.name} ${user.owner.surname}`.toLowerCase().includes(term)
+        );
+    });
 
     constructor(private dataService: DataService, private router: Router) { }
 
@@ -26,7 +32,7 @@ export class UserListComponent implements OnInit {
                 const filteredUsers = users.filter(u => u?.userid); // Filter empty records
                 this.users.set(filteredUsers);
                 this.isLoading.set(false);
-                console.debug("Loaded users: " + users.length);
+
             },
             error: err => {
                 console.error('Failed to load users:', err);
@@ -44,6 +50,11 @@ export class UserListComponent implements OnInit {
             state: { user: user }
         });
 
+    }
+
+    onSearchInput(event: Event) {
+        const input = event.target as HTMLInputElement;
+        this.searchTerm.set(input.value);
     }
 }
 
